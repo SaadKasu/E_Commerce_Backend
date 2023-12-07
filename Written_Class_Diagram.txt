@@ -1,0 +1,52 @@
+Product Service :
+
+Class Diagram :
+
+	BaseClass
+		# id : String
+		# createdBy : String
+		# lastmodifiedBy : String
+		# createdAt : Date
+		# lastModifiedAt : Date
+
+	Product
+		- productCategory : TypeOfProduct
+		- images : Image
+		- price : int
+		- productName : String
+		- description : String
+		- reviews : List<Review>
+		- features : List<Feature>
+	
+	Image 
+		- thumbnailImage : ImageURL
+		- productImages : List<ImageURL>
+		- descriptionImages : List<ImageURL>
+		
+	ImageURL 
+		- url : String
+		
+	Review 
+		- title : String
+		- description : String
+		- images : Image
+		
+	Feature
+		- logo : Image
+		- title : String
+		- description : String
+		
+	<<enumeration>> TypeOfProduct 
+		MOBILE_PHONE,
+		LAPTOP,
+		HOUSEHOLD_GOODS
+		
+	<<enumeration>> TypeOfImage 
+		PRODUCT_IMAGE,
+		DESCRIPTION_IMAGE
+		REVIEW_IMAGE
+		FEATURE_IMAGE
+		THUMBNAIL_IMAGE
+
+	Mapping table between review and product
+	Mapping Table between product and feature
