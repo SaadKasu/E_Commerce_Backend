@@ -6,13 +6,14 @@ Functional Requirements
 1.2. Login: Users should be able to securely log in using their credentials.
 1.3. Profile Management: Users should have the ability to view and modify their profile details.
 1.4. Password Reset: Users must have the option to reset their password through a secure link.
-2. Product Catalog
 
+2. Product Catalog
 2.1. Browsing: Users should be able to browse products by different categories.
 2.2. Product Details: Detailed product pages with product images, descriptions, specifications, and other relevant information.
 2.3. Search: Users must be able to search for products using keywords.
-3. Cart & Checkout
 
+
+3. Cart & Checkout
 3.1. Add to Cart: Users should be able to add products to their cart.
 3.2. Cart Review: View selected items in the cart with price, quantity, and total details.
 3.3. Checkout: Seamless process to finalize the purchase, including specifying delivery address and payment method.

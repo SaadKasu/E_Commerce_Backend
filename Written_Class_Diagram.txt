@@ -8,6 +8,11 @@ Class Diagram :
 		# lastmodifiedBy : String
 		# createdAt : Date
 		# lastModifiedAt : Date
+		# isDeleted : Status
+		
+	<<enumeration>> Status
+		DELETED,
+		NOT_DELETED
 
 	Product
 		- productCategory : TypeOfProduct
