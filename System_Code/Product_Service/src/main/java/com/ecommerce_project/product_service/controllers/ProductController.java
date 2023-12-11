@@ -30,4 +30,14 @@ public class ProductController {
     public ProductResponseDTO addProduct(@RequestBody  ProductRequestDTO requestDTO){
         return new ProductResponseDTO("Product Added Successfully and name is - "+ requestDTO.getName());
     }
+    @PutMapping("/updateProduct")
+    @ResponseBody()
+    public ProductResponseDTO updateProduct(@RequestBody ProductRequestDTO requestDTO){
+        return new ProductResponseDTO("Updated Product with name - "+requestDTO.getName());
+    }
+    @GetMapping("/limitedResults/")
+    @ResponseBody
+    public ProductResponseDTO getLimitedResults(@RequestParam(required = false, name = "limit") Integer number, @RequestParam String name){
+        return new ProductResponseDTO("This contains "+(number== null ? 0 : number)+" Results for name - "+name);
+    }
 }

@@ -1,0 +1,16 @@
+Product Service :
+
+	-> Used to handle products searching and product information
+	-> It is a Proxy Service : It means that the data is not stored in this service or DB of this service. The data is taken from external APIs and only processed in this service.
+	-> The data is taken from HTTP APIs from the FakeStoreAPI website.
+	
+	Use Cases Handled :
+		- > Users are able to search for products.
+		-> Users are able to search by keywords.
+		-> Users are able to search by categories.
+		
+	Dependencies Used is Spring Boot :
+		-> Lombok - Provides important annotations to reduce boiler plate code like @data, @getter and @setter
+		-> Spring Boot DevTools - Provides features to improve development experience like auto restart. When files are changed in the class path applications will restart reducing the time needed to verify the changes made
+		-> Spring Configuration Processor - It is an annotation processor that generates metadata about classes in your application that are annnotated with @ConfigurationProperties this data is used by IDE to provide autocomplete and documnetation for application.properties and application.yaml files.
+		-> Spring Web - Adds apache tomcat server and provides core HTTP integration including handy servlet filters. USes spring MVC for web layer.

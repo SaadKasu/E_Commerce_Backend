@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class DefaultController {
-    @GetMapping("name/")
+    @GetMapping("")
     public String returnDefault(){
         return "Default";
     }
