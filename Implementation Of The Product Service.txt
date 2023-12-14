@@ -14,3 +14,7 @@ Product Service :
 		-> Spring Boot DevTools - Provides features to improve development experience like auto restart. When files are changed in the class path applications will restart reducing the time needed to verify the changes made
 		-> Spring Configuration Processor - It is an annotation processor that generates metadata about classes in your application that are annnotated with @ConfigurationProperties this data is used by IDE to provide autocomplete and documnetation for application.properties and application.yaml files.
 		-> Spring Web - Adds apache tomcat server and provides core HTTP integration including handy servlet filters. USes spring MVC for web layer.
+		
+	14th December Update :
+		-> Integrated external APIs of FakeStoreAPI.com for Get and Post. 
+		-> Tried Response Entity, multivaluemap for headers and RestTempelate getForEntity and postForEntity methods

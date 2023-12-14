@@ -1,4 +1,4 @@
-package com.ecommerce_project.product_service.controllers;
+package com.ecommerce_project.product_service.Controllers;
 
 import com.ecommerce_project.product_service.DTOs.ProductRequestDTO;
 import org.springframework.web.bind.annotation.GetMapping;

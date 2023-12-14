@@ -4,8 +4,15 @@ import lombok.Data;
 
 @Data
 public class ProductResponseDTO {
-    private String responseMessage;
-    public ProductResponseDTO(String msg){
-        responseMessage = msg;
+    private String id;
+    private String title;
+    private String category;
+    private String description;
+    private String image;
+    private String errorMesssage;
+    public ProductResponseDTO (String errorMessage){
+        this.errorMesssage = errorMessage;
+    }
+    public ProductResponseDTO (){
     }
 }
