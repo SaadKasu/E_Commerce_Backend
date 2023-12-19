@@ -7,20 +7,34 @@ import com.ecommerce_project.product_service.Models.Product;
 import java.util.*;
 
 public class ProductUtility {
-    public static ProductResponseDTO convertSingleProductToDTO(Product product){
+    public static ProductResponseDTO convertSingleProductToDTO(Optional<Product> optionalProduct){
         ProductResponseDTO responseDTO = new ProductResponseDTO();
+        if (optionalProduct.isEmpty()){
+            responseDTO.setErrorMesssage("There was an error. Please try again later");
+            return responseDTO;
+        }
+        Product product = optionalProduct.get();
         responseDTO.setCategory(product.getCategory());
         responseDTO.setId(product.getId());
         responseDTO.setDescription(product.getDescription());
         responseDTO.setTitle(product.getTitle());
         responseDTO.setImage(product.getImage());
+        responseDTO.setPrice(product.getPrice());
+        responseDTO.setId(product.getId());
         return responseDTO;
     }
 
-    public static List<ProductResponseDTO> convertListOfProductsToDTOs(List<Product> products){
+    public static List<ProductResponseDTO> convertListOfProductsToDTOs(Optional<List<Product>> optionalProducts){
         List<ProductResponseDTO> responseDTOs = new ArrayList<>();
+        if (optionalProducts.isEmpty()){
+            ProductResponseDTO responseDTO = new ProductResponseDTO();
+            responseDTO.setErrorMesssage("Could not return the product. Please try Later");
+            responseDTOs.add(responseDTO);
+            return responseDTOs;
+        }
+        List<Product> products = optionalProducts.get();
         for (Product product : products){
-            responseDTOs.add(convertSingleProductToDTO(product));
+            responseDTOs.add(convertSingleProductToDTO(Optional.of(product)));
         }
         return responseDTOs;
     }
@@ -31,6 +45,8 @@ public class ProductUtility {
         product.setDescription(requestDTO.getDescription());
         product.setTitle(requestDTO.getTitle());
         product.setImage(requestDTO.getImage());
+        product.setPrice(requestDTO.getPrice());
+        product.setId(requestDTO.getId());
         return product;
     }
 

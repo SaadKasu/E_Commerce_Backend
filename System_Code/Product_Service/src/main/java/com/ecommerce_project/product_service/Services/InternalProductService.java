@@ -9,48 +9,49 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class InternalProductService implements IProductService{
+
     @Override
-    public List<Product> getAllProducts() {
-        return null;
+    public Optional<List<Product>> getAllProducts() {
+        return Optional.empty();
     }
 
     @Override
-    public Product getProductById(String id) {
-        return null;
+    public Optional<Product> getProductById(String id) {
+        return Optional.empty();
     }
 
     @Override
-    public List<Product> getLimitedProducts(int size) {
-        return null;
+    public Optional<List<Product>> getLimitedProducts(int size) {
+        return Optional.empty();
     }
 
     @Override
-    public List<Product> getSortedResults(String order) {
-        return null;
+    public Optional<List<Product>> getSortedResults(String order) {
+        return Optional.empty();
     }
 
     @Override
-    public List<Product> getProductsFromCategory(String category) {
-        return null;
+    public Optional<List<Product>> getProductsFromCategory(String category) {
+        return Optional.empty();
     }
 
     @Override
-    public List<Product> getAllCategories() {
-        return null;
+    public Optional<List<String>> getAllCategories() {
+        return Optional.empty();
     }
 
     @Override
-    public Product addProduct(Product product) {
-        return null;
+    public Optional<Product> addProduct(Product product) {
+        return Optional.empty();
     }
 
     @Override
-    public Product updateProduct(Product product) {
-        return null;
+    public Optional<Product> updateProduct(Product product) {
+        return Optional.empty();
     }
 
     @Override
-    public Product deleteProduct(Product product) {
-        return null;
+    public Optional<Product> deleteProduct(Product product) {
+        return Optional.empty();
     }
 }

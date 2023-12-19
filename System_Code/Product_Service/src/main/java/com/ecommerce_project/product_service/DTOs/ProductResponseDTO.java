@@ -9,6 +9,7 @@ public class ProductResponseDTO {
     private String category;
     private String description;
     private String image;
+    private Long price;
     private String errorMesssage;
     public ProductResponseDTO (String errorMessage){
         this.errorMesssage = errorMessage;

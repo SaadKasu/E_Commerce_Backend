@@ -4,21 +4,22 @@ import com.ecommerce_project.product_service.DTOs.ProductRequestDTO;
 import com.ecommerce_project.product_service.DTOs.ProductResponseDTO;
 import com.ecommerce_project.product_service.Models.Product;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
 public interface IProductService {
-    public List<Product> getAllProducts();
-    public Product getProductById(String id);
+    public Optional<List<Product>> getAllProducts();
+    public Optional<Product> getProductById(String id);
 
-    public List<Product> getLimitedProducts(int size);
-    public List<Product> getSortedResults(String order);
+    public Optional<List<Product>> getLimitedProducts(int size);
+    public Optional<List<Product>> getSortedResults(String order);
 
-    public List<Product> getProductsFromCategory(String category);
+    public Optional<List<Product>> getProductsFromCategory(String category);
 
-    public List<Product> getAllCategories();
+    public Optional<List<String>> getAllCategories();
 
-    public Product addProduct(Product product);
-    public Product updateProduct(Product product);
-    public Product deleteProduct(Product product);
+    public Optional<Product> addProduct(Product product);
+    public Optional<Product> updateProduct(Product product);
+    public Optional<Product> deleteProduct(Product product);
 }

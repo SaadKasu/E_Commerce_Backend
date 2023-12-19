@@ -1,12 +1,14 @@
 package com.ecommerce_project.product_service.FakeStore;
 
-import com.ecommerce_project.product_service.Adapters.IThirdPartyRequestDTO;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class FakeStoreRequestDTO extends IThirdPartyRequestDTO {
+public class FakeStoreRequestDTO {
+    private long id;
     private String title;
-    private String price;
+    private Long price;
     private String description;
     private String image;
     private String category;
