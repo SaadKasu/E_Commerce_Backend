@@ -32,7 +32,7 @@ public class ThirdPartyProductController {
         return new ResponseEntity<>(responseDTOS,HttpStatusCode.valueOf(200));
     }
     @GetMapping("/ProductById/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable String id){
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable long id){
         Optional<Product> product = productService.getProductById(id);
         ProductResponseDTO responseDTO = ProductUtility.convertSingleProductToDTO(product);
         return new ResponseEntity<>(responseDTO,HttpStatusCode.valueOf(200));

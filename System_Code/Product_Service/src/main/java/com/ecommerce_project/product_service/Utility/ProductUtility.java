@@ -2,6 +2,7 @@ package com.ecommerce_project.product_service.Utility;
 
 import com.ecommerce_project.product_service.DTOs.ProductRequestDTO;
 import com.ecommerce_project.product_service.DTOs.ProductResponseDTO;
+import com.ecommerce_project.product_service.Models.Category;
 import com.ecommerce_project.product_service.Models.Product;
 
 import java.util.*;
@@ -14,7 +15,7 @@ public class ProductUtility {
             return responseDTO;
         }
         Product product = optionalProduct.get();
-        responseDTO.setCategory(product.getCategory());
+        responseDTO.setCategory(product.getCategory().getName());
         responseDTO.setId(product.getId());
         responseDTO.setDescription(product.getDescription());
         responseDTO.setTitle(product.getTitle());
@@ -41,7 +42,7 @@ public class ProductUtility {
 
     public static Product convertSingleDtoToProduct(ProductRequestDTO requestDTO){
         Product product = new Product();
-        product.setCategory(requestDTO.getCategory());
+        product.setCategory(new Category(requestDTO.getCategory()));
         product.setDescription(requestDTO.getDescription());
         product.setTitle(requestDTO.getTitle());
         product.setImage(requestDTO.getImage());

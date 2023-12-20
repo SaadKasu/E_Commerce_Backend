@@ -1,8 +1,9 @@
 package com.ecommerce_project.product_service.Services;
 
-import com.ecommerce_project.product_service.DTOs.ProductRequestDTO;
-import com.ecommerce_project.product_service.DTOs.ProductResponseDTO;
 import com.ecommerce_project.product_service.Models.Product;
+import com.ecommerce_project.product_service.Repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,29 +11,36 @@ import java.util.Optional;
 @Service
 public class InternalProductService implements IProductService{
 
-    @Override
-    public Optional<List<Product>> getAllProducts() {
-        return Optional.empty();
+    private ProductRepository productRepository;
+    @Autowired
+    public InternalProductService(ProductRepository productRepository){
+        this.productRepository = productRepository;
     }
 
     @Override
-    public Optional<Product> getProductById(String id) {
-        return Optional.empty();
+    public Optional<List<Product>> getAllProducts() {
+        List<Product> products =  productRepository.findAll();
+        return Optional.ofNullable(products);
+    }
+
+    @Override
+    public Optional<Product> getProductById(long id) {
+        return productRepository.findById(id);
     }
 
     @Override
     public Optional<List<Product>> getLimitedProducts(int size) {
-        return Optional.empty();
+        List<Product> products = productRepository.
     }
 
-    @Override
+    @Overridegit s
     public Optional<List<Product>> getSortedResults(String order) {
-        return Optional.empty();
+        List<Product> products = productRepository.findAll()
     }
 
     @Override
     public Optional<List<Product>> getProductsFromCategory(String category) {
-        return Optional.empty();
+        List<Product> products = productRepository.findBy(Ex)
     }
 
     @Override

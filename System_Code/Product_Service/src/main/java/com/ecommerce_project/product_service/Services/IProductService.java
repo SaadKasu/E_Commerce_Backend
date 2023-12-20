@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface IProductService {
     public Optional<List<Product>> getAllProducts();
-    public Optional<Product> getProductById(String id);
+    public Optional<Product> getProductById(long id);
 
     public Optional<List<Product>> getLimitedProducts(int size);
     public Optional<List<Product>> getSortedResults(String order);

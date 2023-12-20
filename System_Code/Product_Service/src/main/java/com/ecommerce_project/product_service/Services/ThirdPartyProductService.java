@@ -28,7 +28,7 @@ public class ThirdPartyProductService implements IProductService {
         return Optional.of(products);
     }
 
-    public Optional<Product> getProductById(String productId){
+    public Optional<Product> getProductById(long productId){
         Product product = thirdPartyAdapter.getProductById(productId);
         return Optional.ofNullable(product);
     }

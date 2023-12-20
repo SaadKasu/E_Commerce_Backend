@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IThirdPartyAdapter {
     public List<Product> getAllProducts();
-    public Product getProductById(String id);
+    public Product getProductById(long id);
     public List<Product> getTopXResults(int limit);
     public List<Product> getSortedResults(String sortOrder);
     public List<Product> getAllProductsInOneCategory(String category);

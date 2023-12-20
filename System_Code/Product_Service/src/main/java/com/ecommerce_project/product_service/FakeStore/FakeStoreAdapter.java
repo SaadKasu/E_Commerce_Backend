@@ -2,6 +2,7 @@ package com.ecommerce_project.product_service.FakeStore;
 
 import com.ecommerce_project.product_service.Adapters.IThirdPartyAdapter;
 import com.ecommerce_project.product_service.DTOs.ProductResponseDTO;
+import com.ecommerce_project.product_service.Models.Category;
 import com.ecommerce_project.product_service.Models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -37,7 +38,7 @@ public class FakeStoreAdapter implements IThirdPartyAdapter {
     }
 
     @Override
-    public Product getProductById(String id) {
+    public Product getProductById(long id) {
         String url = "https://fakestoreapi.com/products/"+id;
         ResponseEntity<FakeStoreResponseDTO> responseEntity = makeGETCalloutForSingleProduct(url);
         return convertResponseEntityToProduct(responseEntity);
@@ -100,7 +101,7 @@ public class FakeStoreAdapter implements IThirdPartyAdapter {
         product.setId(responseDTO.getId());
         product.setDescription(responseDTO.getDescription());
         product.setImage(responseDTO.getImage());
-        product.setCategory(responseDTO.getCategory());
+        product.setCategory(new Category(responseDTO.getCategory()));
         product.setTitle(responseDTO.getTitle());
         product.setPrice(responseDTO.getPrice());
         return product;
@@ -108,7 +109,7 @@ public class FakeStoreAdapter implements IThirdPartyAdapter {
 
     private static FakeStoreRequestDTO convertProductToDTO(Product product){
         FakeStoreRequestDTO requestDTO = new FakeStoreRequestDTO();
-        requestDTO.setCategory(product.getCategory());
+        requestDTO.setCategory(product.getCategory().getName());
         requestDTO.setDescription(product.getDescription());
         requestDTO.setImage(product.getImage());
         requestDTO.setTitle(product.getTitle());
