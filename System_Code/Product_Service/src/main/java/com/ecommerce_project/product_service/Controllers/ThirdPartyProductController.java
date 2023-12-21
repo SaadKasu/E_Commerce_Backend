@@ -18,7 +18,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/ThirdParty/Product")
-public class ThirdPartyProductController {
+public class ThirdPartyProductController implements IController{
     private final IProductService productService;
     @Autowired
     ThirdPartyProductController(ThirdPartyProductService productService){

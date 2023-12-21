@@ -15,6 +15,6 @@ public class Product extends BaseClass{
     private String description;
     private String image;
     private Long price;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Category category;
 }
