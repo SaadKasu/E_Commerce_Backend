@@ -2,14 +2,18 @@ package com.ecommerce_project.product_service.Controllers;
 
 import com.ecommerce_project.product_service.DTOs.ProductRequestDTO;
 import com.ecommerce_project.product_service.DTOs.ProductResponseDTO;
+import com.ecommerce_project.product_service.Models.Product;
 import com.ecommerce_project.product_service.Services.IProductService;
 import com.ecommerce_project.product_service.Services.InternalProductService;
+import com.ecommerce_project.product_service.Utility.GeneralUtility;
+import com.ecommerce_project.product_service.Utility.ProductUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/Internal/Product")
@@ -20,49 +24,76 @@ public class InternalProductController implements IController{
         this.productService = productService;
     }
 
-
+    @GetMapping("/AllProducts")
     @Override
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        return null;
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
+        Optional<List<Product>> products = productService.getAllProducts();
+        List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
+        return new ResponseEntity<>(responseDTOS, HttpStatusCode.valueOf(200));
+    }
+    @GetMapping("/ProductById/{id}")
+    @Override
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable long id){
+        Optional<Product> product = productService.getProductById(id);
+        ProductResponseDTO responseDTO = ProductUtility.convertSingleProductToDTO(product);
+        return new ResponseEntity<>(responseDTO,HttpStatusCode.valueOf(200));
+    }
+    @GetMapping("/LimitedProducts")
+    @Override
+    public ResponseEntity<List<ProductResponseDTO>> getLimitedProducts(@RequestParam(name = "limit") int size){
+        Optional<List<Product>> products = productService.getLimitedProducts(size);
+        List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
+        return new ResponseEntity<>(responseDTOS,HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/SortedProducts")
     @Override
-    public ResponseEntity<ProductResponseDTO> getProductById(long id) {
-        return null;
+    public ResponseEntity<List<ProductResponseDTO>> getSortedResults(@RequestParam(name = "sort") String order){
+        Optional<List<Product>> products = productService.getSortedResults(order);
+        List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
+        return new ResponseEntity<>(responseDTOS,HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/Category/{categoryName}")
     @Override
-    public ResponseEntity<List<ProductResponseDTO>> getLimitedProducts(int size) {
-        return null;
+    public ResponseEntity<List<ProductResponseDTO>> getProductsFromCategory(@PathVariable String categoryName){
+        Optional<List<Product>> products = productService.getProductsFromCategory(categoryName);
+        List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
+        return new ResponseEntity<>(responseDTOS,HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/Categories")
     @Override
-    public ResponseEntity<List<ProductResponseDTO>> getSortedResults(String order) {
-        return null;
+    public ResponseEntity<List<String>> getAllCategories(){
+        Optional<List<String>> optionalCategories = productService.getAllCategories();
+        List<String> strings = GeneralUtility.convertOptionalToStrings(optionalCategories);
+        return new ResponseEntity<>(strings,HttpStatusCode.valueOf(200));
     }
 
+
+    @PostMapping("/AddProduct")
     @Override
-    public ResponseEntity<List<ProductResponseDTO>> getProductsFromCategory(String categoryName) {
-        return null;
+    public ResponseEntity<ProductResponseDTO> addProduct(@RequestBody  ProductRequestDTO requestDTO){
+        Product product = ProductUtility.convertSingleDtoToProduct(requestDTO);
+        Optional<Product> optionalProduct = productService.addProduct(product);
+        ProductResponseDTO responseDTO = ProductUtility.convertSingleProductToDTO(optionalProduct);
+        return new ResponseEntity<>(responseDTO,HttpStatusCode.valueOf(200));
     }
 
+    @PatchMapping("/UpdateProduct")
     @Override
-    public ResponseEntity<List<String>> getAllCategories() {
-        return null;
+    public ResponseEntity<ProductResponseDTO> updateProduct(@RequestBody  ProductRequestDTO requestDTO) {
+        Product product = ProductUtility.convertSingleDtoToProduct(requestDTO);
+        Optional<Product> optionalProduct = productService.updateProduct(product);
+        ProductResponseDTO responseDTO = ProductUtility.convertSingleProductToDTO(optionalProduct);
+        return new ResponseEntity<>(responseDTO, HttpStatusCode.valueOf(200));
     }
-
+    @DeleteMapping("/DeleteProduct")
     @Override
-    public ResponseEntity<ProductResponseDTO> addProduct(ProductRequestDTO requestDTO) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<ProductResponseDTO> updateProduct(ProductRequestDTO requestDTO) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<ProductResponseDTO> deleteProduct(ProductRequestDTO requestDTO) {
-        return null;
+    public ResponseEntity<ProductResponseDTO> deleteProduct(@RequestBody  ProductRequestDTO requestDTO) {
+        Product product = ProductUtility.convertSingleDtoToProduct(requestDTO);
+        Optional<Product> optionalProduct = productService.deleteProduct(product);
+        ProductResponseDTO responseDTO = ProductUtility.convertSingleProductToDTO(optionalProduct);
+        return new ResponseEntity<>(responseDTO, HttpStatusCode.valueOf(200));
     }
 }

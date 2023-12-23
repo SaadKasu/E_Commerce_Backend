@@ -26,18 +26,21 @@ public class ThirdPartyProductController implements IController{
     }
 
     @GetMapping("/AllProducts")
+    @Override
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
         Optional<List<Product>> products = productService.getAllProducts();
         List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
         return new ResponseEntity<>(responseDTOS,HttpStatusCode.valueOf(200));
     }
     @GetMapping("/ProductById/{id}")
+    @Override
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable long id){
         Optional<Product> product = productService.getProductById(id);
         ProductResponseDTO responseDTO = ProductUtility.convertSingleProductToDTO(product);
         return new ResponseEntity<>(responseDTO,HttpStatusCode.valueOf(200));
     }
     @GetMapping("/LimitedProducts")
+    @Override
     public ResponseEntity<List<ProductResponseDTO>> getLimitedProducts(@RequestParam(name = "limit") int size){
         Optional<List<Product>> products = productService.getLimitedProducts(size);
         List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
@@ -45,6 +48,7 @@ public class ThirdPartyProductController implements IController{
     }
 
     @GetMapping("/SortedProducts")
+    @Override
     public ResponseEntity<List<ProductResponseDTO>> getSortedResults(@RequestParam(name = "sort") String order){
         Optional<List<Product>> products = productService.getSortedResults(order);
         List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
@@ -52,6 +56,7 @@ public class ThirdPartyProductController implements IController{
     }
 
     @GetMapping("/Category/{categoryName}")
+    @Override
     public ResponseEntity<List<ProductResponseDTO>> getProductsFromCategory(@PathVariable String categoryName){
         Optional<List<Product>> products = productService.getProductsFromCategory(categoryName);
         List<ProductResponseDTO> responseDTOS = ProductUtility.convertListOfProductsToDTOs(products);
@@ -59,6 +64,7 @@ public class ThirdPartyProductController implements IController{
     }
 
     @GetMapping("/Categories")
+    @Override
     public ResponseEntity<List<String>> getAllCategories(){
         Optional<List<String>> optionalCategories = productService.getAllCategories();
         List<String> strings = GeneralUtility.convertOptionalToStrings(optionalCategories);
@@ -67,6 +73,7 @@ public class ThirdPartyProductController implements IController{
 
 
     @PostMapping("/AddProduct")
+    @Override
     public ResponseEntity<ProductResponseDTO> addProduct(@RequestBody  ProductRequestDTO requestDTO){
         Product product = ProductUtility.convertSingleDtoToProduct(requestDTO);
         Optional<Product> optionalProduct = productService.addProduct(product);
@@ -75,6 +82,7 @@ public class ThirdPartyProductController implements IController{
     }
 
     @PatchMapping("/UpdateProduct")
+    @Override
     public ResponseEntity<ProductResponseDTO> updateProduct(@RequestBody  ProductRequestDTO requestDTO) {
         Product product = ProductUtility.convertSingleDtoToProduct(requestDTO);
         Optional<Product> optionalProduct = productService.updateProduct(product);
@@ -82,6 +90,7 @@ public class ThirdPartyProductController implements IController{
         return new ResponseEntity<>(responseDTO, HttpStatusCode.valueOf(200));
     }
     @DeleteMapping("/DeleteProduct")
+    @Override
     public ResponseEntity<ProductResponseDTO> deleteProduct(@RequestBody  ProductRequestDTO requestDTO) {
         Product product = ProductUtility.convertSingleDtoToProduct(requestDTO);
         Optional<Product> optionalProduct = productService.deleteProduct(product);
