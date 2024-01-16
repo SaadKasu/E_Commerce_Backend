@@ -13,7 +13,6 @@ public class UserSession extends BaseModel{
     private Date startedAt;
     private Date endedAt;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Column(name = "userId")
     private User user;
     private boolean isActive;
 }
