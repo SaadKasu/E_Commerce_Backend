@@ -17,4 +17,6 @@ public interface IUserController {
     public ResponseEntity<UserResponseDTO> getUserDetails(String userId);
 
     public ResponseEntity<List<UserResponseDTO>> getAllUsers();
+
+    public ResponseEntity<UserResponseDTO> loginUser(UserRequestDTO requestDTO);
 }

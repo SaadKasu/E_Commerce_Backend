@@ -25,13 +25,13 @@ public class UserService implements IUserService {
         if (!UserUtility.checkIfRequiredFieldsExistAtUserCreation(user))
             return Optional.empty();
 
-        Optional<List<User>> getExistingUsers = userRepository.checkIfUserExists(user.getUserName(),user.getMobileNumber(), user.getEmailAddress());
+        Optional<List<User>> optionalUsers = userRepository.checkIfUserExists(user.getUserName(),user.getMobileNumber(), user.getEmailAddress());
 
-        if (!UserUtility.isUserUnique(getExistingUsers,user))
+        if (!UserUtility.isUserUnique(optionalUsers,user))
             return Optional.empty();
 
         UserUtility.setIsDeletedFlagOnUser(user,false);
-        UserUtility.setCreateAudits(user);
+        UserUtility.setOnCreateAudits(user);
         User insertedUser = userRepository.save(user);
 
         return Optional.of(insertedUser);
@@ -40,15 +40,14 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> updateUser(User user) {
 
-        if(user.getId().isEmpty())
-            return Optional.empty();
-
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+        Optional<User> optionalUser = getUserDetails(user);
 
         if (optionalUser.isEmpty())
             return Optional.empty();
+
         User existingUser = optionalUser.get();
         UserUtility.updateUserDetails(existingUser, user);
+        UserUtility.setOnUpdateAudits(existingUser);
         User updatedUser = userRepository.save(existingUser);
 
         return Optional.of(updatedUser);
@@ -57,16 +56,14 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> deleteUser(User user) {
 
-        if(user.getId().isEmpty())
-            return Optional.empty();
-
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+        Optional<User> optionalUser = getUserDetails(user);
 
         if (optionalUser.isEmpty())
             return Optional.empty();
-        User existingUser = optionalUser.get();
 
+        User existingUser = optionalUser.get();
         UserUtility.setIsDeletedFlagOnUser(existingUser,true);
+        UserUtility.setOnUpdateAudits(existingUser);
         User deletedUser = userRepository.save(existingUser);
 
         return Optional.of(deletedUser);
@@ -75,7 +72,7 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> getUserDetails(User user) {
 
-        if(user.getId().isEmpty())
+        if(user.getId() == null || user.getId().isBlank())
             return Optional.empty();
 
         return userRepository.findById(user.getId());
@@ -87,5 +84,24 @@ public class UserService implements IUserService {
         List<User> existingUsers = userRepository.findAll();
         return Optional.of(existingUsers);
     }
+    @Override
+    public Optional<User> loginUser(User user) {
+
+        if(!UserUtility.isUserNameValid(user.getUserName()) || !UserUtility.isPasswordValid(user.getPassword()))
+            return Optional.empty();
+
+        Optional<User> optionalUser = userRepository.findByUserName(user.getUserName());
+
+        if (optionalUser.isEmpty())
+            return Optional.empty();
+
+        User existingUser = optionalUser.get();
+
+        if (user.getPassword().equals(existingUser.getPassword()))
+            return Optional.of(existingUser);
+        return Optional.empty();
+
+    }
+
 
 }

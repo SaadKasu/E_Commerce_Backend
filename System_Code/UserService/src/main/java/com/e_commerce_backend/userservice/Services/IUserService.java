@@ -11,4 +11,6 @@ public interface IUserService {
     public Optional<User> deleteUser(User user);
     public Optional<User> getUserDetails(User user);
     public Optional<List<User>> getAllUsers();
+
+    public Optional<User> loginUser(User user);
 }

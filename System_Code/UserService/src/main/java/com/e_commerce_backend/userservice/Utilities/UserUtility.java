@@ -7,18 +7,13 @@ import com.e_commerce_backend.userservice.Models.User;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserUtility {
     public static User convertUserRequestDTOToUserObject(UserRequestDTO requestDTO){
 
-        String stringGender = requestDTO.getGender().toLowerCase();
-        Gender gender = stringGender.equals("male") ? Gender.MALE : (stringGender.equals("female") ? Gender.FEMALE : Gender.OTHER);
-
         User userObj = new User();
+        Gender gender = convertStringToGender(requestDTO.getGender());
         userObj.setUserName(requestDTO.getUserName());
         userObj.setAge(requestDTO.getAge());
         userObj.setGender(gender);
@@ -27,7 +22,8 @@ public class UserUtility {
         userObj.setEmailAddress(requestDTO.getEmailAddress());
         userObj.setMiddleName(requestDTO.getMiddleName());
         userObj.setMobileNumber(requestDTO.getMobileNumber());
-        userObj.setPassword(requestDTO.getPassword());
+        userObj.setPassword(Base64.getEncoder().encodeToString(requestDTO.getPassword().getBytes()));
+        userObj.setId(requestDTO.getUserId());
 
         return userObj;
     }
@@ -57,11 +53,11 @@ public class UserUtility {
     }
 
     public static String getGenderAsString(Gender gender){
-        return gender == Gender.MALE ? "Male" : (gender == Gender.FEMALE ? "Female" : "Other");
+        return gender == null ? null : (gender == Gender.MALE ? "Male" : (gender == Gender.FEMALE ? "Female" : "Other"));
     }
 
     public static Gender convertStringToGender(String stringGender){
-        if (stringGender.isEmpty())
+        if (stringGender == null || stringGender.isBlank())
             return null;
         stringGender = stringGender.toLowerCase();
         return stringGender.equals("male") ? Gender.MALE : (stringGender.equals("female") ? Gender.FEMALE : Gender.OTHER);
@@ -69,7 +65,7 @@ public class UserUtility {
 
     public static ResponseEntity<UserResponseDTO> convertResponseDTOToResponseEntity(UserResponseDTO responseDTO){
         String errorMessage = responseDTO.getErrorMessage();
-        if (errorMessage.isBlank())
+        if (errorMessage == null || errorMessage.isBlank())
             return new ResponseEntity<>(responseDTO, HttpStatusCode.valueOf(200));
         else if (errorMessage.equals("Server Error"))
             return new ResponseEntity<>(responseDTO,HttpStatusCode.valueOf(500));
@@ -107,22 +103,24 @@ public class UserUtility {
         return responseDTOS;
     }
 
-    public static UserRequestDTO createUserRequestDTOWithUserId(String userName){
+    public static UserRequestDTO createUserRequestDTOWithUserId(String userId){
         UserRequestDTO requestDTO = new UserRequestDTO();
-        requestDTO.setUserName(userName);
+        requestDTO.setUserId(userId);
         return requestDTO;
     }
 
-    public static boolean isUserUnique(Optional<List<User>> existingUsers, User user){
-        if (existingUsers.isEmpty() || existingUsers.get().isEmpty())
+    public static boolean isUserUnique(Optional<List<User>> optionalUsers, User user){
+        if (optionalUsers.isEmpty() || optionalUsers.get().isEmpty())
             return true;
-
-        for(User existingUser : existingUsers.get()){
-            if (existingUser.getUserName().equals(user.getUserName()))
+        List<User> existingUsers = optionalUsers.get();
+        System.out.println("New User Name - "+ user.getUserName() + " New User Number - "+user.getMobileNumber() + " New User Email - "+ user.getEmailAddress());
+        for(User existingUser : existingUsers){
+            System.out.println("Existing User Name - "+ existingUser.getUserName() + " Existing User Number - "+existingUser.getMobileNumber() + " Existing User Email - "+ existingUser.getEmailAddress());
+            if (existingUser.getUserName().equalsIgnoreCase(user.getUserName()))
                 return false;
-            if (existingUser.getEmailAddress().equals(user.getEmailAddress()))
+            if (existingUser.getEmailAddress().equalsIgnoreCase(user.getEmailAddress()))
                 return false;
-            if (existingUser.getMobileNumber().equals(user.getMobileNumber()))
+            if (existingUser.getMobileNumber().equalsIgnoreCase(user.getMobileNumber()))
                 return false;
         }
 
@@ -147,37 +145,43 @@ public class UserUtility {
         return true;
     }
 
-    private static boolean isPasswordValid(String password){
-        if (!password.isBlank())
+    public static boolean isPasswordValid(String password){
+        if (password == null || password.isBlank())
             return false;
         return true;
     }
     public static boolean isUserNameValid(String userName){
-        if (userName.isBlank())
+        if (userName == null || userName.isBlank())
             return false;
         return true;
     }
 
     public static boolean isFirstNameValid(String firstName){
-        if (firstName.isBlank())
+        if (firstName == null || firstName.isBlank())
+            return false;
+        return true;
+    }
+
+    public static boolean isMiddleNameValid(String middleName){
+        if (middleName == null || middleName.isBlank())
             return false;
         return true;
     }
 
     public static boolean isLastNameValid(String lastName){
-        if (lastName.isBlank())
+        if (lastName == null || lastName.isBlank())
             return false;
         return true;
     }
 
     public static boolean isMobileNumberValid(String mobileNumber){
-        if (mobileNumber.isBlank())
+        if (mobileNumber == null || mobileNumber.isBlank())
             return false;
         return true;
     }
 
     public static boolean isEmailAddressValid(String emailAddress){
-        if (emailAddress.isBlank())
+        if (emailAddress == null || emailAddress.isBlank())
             return false;
         return true;
     }
@@ -188,14 +192,14 @@ public class UserUtility {
         return true;
     }
 
-    public static void setCreateAudits(User user){
+    public static void setOnCreateAudits(User user){
         user.setCreatedBy("System");
         user.setLastModifiedBy("System");
         user.setCreatedDate(new Date());
         user.setLastModifiedAt(new Date());
     }
 
-    public static void setUpdateOrDeleteAudits(User user){
+    public static void setOnUpdateAudits(User user){
         user.setLastModifiedBy("System");
         user.setLastModifiedAt(new Date());
     }
@@ -209,7 +213,7 @@ public class UserUtility {
             existingUser.setAge(newUser.getAge());
         if (!(newUser.getGender() ==null))
             existingUser.setGender(newUser.getGender());
-        if (!newUser.getMiddleName().isBlank())
+        if (isMiddleNameValid(newUser.getMiddleName()))
             existingUser.setMiddleName(newUser.getMiddleName());
         if (isMobileNumberValid(newUser.getMobileNumber()))
             existingUser.setMobileNumber(newUser.getMobileNumber());

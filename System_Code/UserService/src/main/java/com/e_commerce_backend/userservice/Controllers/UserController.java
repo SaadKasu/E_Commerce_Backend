@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Users/UserManagement")
+@RequestMapping("/Users")
 public class UserController implements IUserController {
     private final IUserService userService;
 
@@ -63,5 +63,14 @@ public class UserController implements IUserController {
         Optional<List<User>> users = userService.getAllUsers();
         List<UserResponseDTO> userResponseDTOS = UserUtility.convertListOfUsersToResponseDTOs(users);
         return UserUtility.convertListOfReponseDTOsToResponseEntity(userResponseDTOS);
+    }
+
+    @Override
+    @PostMapping("/LoginUser")
+    public ResponseEntity<UserResponseDTO> loginUser(@RequestBody UserRequestDTO requestDTO){
+        User user = UserUtility.convertUserRequestDTOToUserObject(requestDTO);
+        Optional<User> optionalUser = userService.loginUser(user);
+        UserResponseDTO responseDTO = UserUtility.convertUserObjectToUserResponseDTO(optionalUser);
+        return UserUtility.convertResponseDTOToResponseEntity(responseDTO);
     }
 }
