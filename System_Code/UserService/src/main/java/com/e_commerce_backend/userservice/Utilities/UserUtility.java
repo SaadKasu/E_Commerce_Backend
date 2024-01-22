@@ -1,8 +1,10 @@
 package com.e_commerce_backend.userservice.Utilities;
 
+import com.e_commerce_backend.userservice.DTOs.AuthRequestDTO;
 import com.e_commerce_backend.userservice.DTOs.UserRequestDTO;
 import com.e_commerce_backend.userservice.DTOs.UserResponseDTO;
 import com.e_commerce_backend.userservice.Models.Gender;
+import com.e_commerce_backend.userservice.Models.Session;
 import com.e_commerce_backend.userservice.Models.User;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -225,6 +227,20 @@ public class UserUtility {
             existingUser.setPassword(newUser.getPassword());
         if (isFirstNameValid(newUser.getFirstName()))
             existingUser.setFirstName(newUser.getFirstName());
+    }
+
+    public static User convertAuthRequestDTOToUser(AuthRequestDTO requestDTO){
+        User user = new User();
+        user.setUserName(requestDTO.getUserName());
+        user.setPassword(Base64.getEncoder().encodeToString(requestDTO.getPassword().getBytes()));
+        return user;
+    }
+
+    public static User getUserFromUserNameAndPassword(String userName, String password){
+        User user = new User();
+        user.setUserName(userName);
+        user.setPassword( Base64.getEncoder().encodeToString(password.getBytes()));
+        return user;
     }
 
 }
