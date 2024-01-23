@@ -16,15 +16,23 @@ public class UserUtility {
 
         User userObj = new User();
         Gender gender = convertStringToGender(requestDTO.getGender());
-        userObj.setUserName(requestDTO.getUserName());
-        userObj.setAge(requestDTO.getAge());
+        if (isUserNameValid(requestDTO.getUserName()))
+            userObj.setUserName(requestDTO.getUserName());
+        if (isAgeValid(requestDTO.getAge()))
+            userObj.setAge(requestDTO.getAge());
         userObj.setGender(gender);
-        userObj.setFirstName(requestDTO.getFirstName());
-        userObj.setLastName(requestDTO.getLastName());
-        userObj.setEmailAddress(requestDTO.getEmailAddress());
-        userObj.setMiddleName(requestDTO.getMiddleName());
-        userObj.setMobileNumber(requestDTO.getMobileNumber());
-        userObj.setPassword(Base64.getEncoder().encodeToString(requestDTO.getPassword().getBytes()));
+        if (isFirstNameValid(requestDTO.getFirstName()))
+            userObj.setFirstName(requestDTO.getFirstName());
+        if (isLastNameValid(requestDTO.getLastName()))
+            userObj.setLastName(requestDTO.getLastName());
+        if (isEmailAddressValid(requestDTO.getEmailAddress()))
+            userObj.setEmailAddress(requestDTO.getEmailAddress());
+        if (isMiddleNameValid(requestDTO.getMiddleName()))
+            userObj.setMiddleName(requestDTO.getMiddleName());
+        if (isMobileNumberValid(requestDTO.getMobileNumber()))
+            userObj.setMobileNumber(requestDTO.getMobileNumber());
+        if(isPasswordValid(requestDTO.getPassword()))
+            userObj.setPassword(Base64.getEncoder().encodeToString(requestDTO.getPassword().getBytes()));
         userObj.setId(requestDTO.getUserId());
 
         return userObj;
@@ -165,8 +173,6 @@ public class UserUtility {
     }
 
     public static boolean isMiddleNameValid(String middleName){
-        if (middleName == null || middleName.isBlank())
-            return false;
         return true;
     }
 

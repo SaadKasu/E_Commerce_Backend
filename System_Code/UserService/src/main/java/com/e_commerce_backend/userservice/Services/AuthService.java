@@ -31,6 +31,7 @@ public class AuthService implements IAuthService{
         if (optionalUser.isEmpty())
             return Optional.empty();
 
+
         User existingUser = optionalUser.get();
 
         if (moreThanPermittedSessionsActiveForUser(existingUser))
@@ -55,6 +56,6 @@ public class AuthService implements IAuthService{
 
         Optional<List<Session>> activeSessionsForUser = sessionRepository.findActiveSessionsForUser(user.getId());
 
-        return activeSessionsForUser.isEmpty() || activeSessionsForUser.get().size() < 2 ;
+        return !(activeSessionsForUser.isEmpty() || activeSessionsForUser.get().size() < 2 );
     }
 }

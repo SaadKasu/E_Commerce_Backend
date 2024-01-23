@@ -43,7 +43,7 @@ public class AuthUtility {
             return responseDTO;
         }
         Session session = optionalSession.get();
-        responseDTO.setUserId(session.getId());
+        responseDTO.setUserId(session.getUser().getId());
         responseDTO.setEndsAt(session.getEnds_At());
         responseDTO.setToken(session.getToken());
         return responseDTO;
